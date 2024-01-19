@@ -7,14 +7,15 @@ while(True):
         break
 
     arr = [a, b, c]
+    arr.sort(reverse = True)
+    if (arr[0] >= arr[1] + arr[2]):
+        print("Invalid")
+        continue
     set_arr = set(arr)
 
     if (len(set_arr) == 1):
         print("Equilateral")
     elif (len(set_arr) == 2):
-        if (set_arr.remove(0)):
-            print("Invalid")
         print("Isosceles")
     else:
-        arr.sort(revers = True)
-        if (arr[0] >= )
+        print("Scalene")
