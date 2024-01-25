@@ -7,38 +7,30 @@ board = []
 for i in range(N):
     board.append(input().strip())
 
-count = []
+count = [[0 for _ in range(M+1)] for _ in range(N+1)]
+
+flag = True
 for i in range(N):
-    startB = [0]
-    startW = [0]
-    flag = True
     for j in range(M):
         if flag:
-            if board[i][j] != 'B':
-                startB.append(startB[-1] + 1)
-                startW.append(startW[-1])
+            if board[i][j] == 'B':
+                count[i][j] = count[i-1][j] + count[i][j-1] - count[i-1][j-1]
             else:
-                startW.append(startW[-1] + 1)
-                startB.append(startB[-1])
+                count[i][j] = 1 + count[i-1][j] + count[i][j-1] - count[i-1][j-1]
         else:
             if board[i][j] == 'B':
-                startB.append(startB[-1] + 1)
-                startW.append(startW[-1])
+                count[i][j] = 1 + count[i-1][j] + count[i][j-1] - count[i-1][j-1]
             else:
-                startW.append(startW[-1] + 1)
-                startB.append(startB[-1])
+                count[i][j] = count[i-1][j] + count[i][j-1] - count[i-1][j-1]
         flag = not flag
-    count.append([startB, startW])
+    if M % 2 == 0:
+        flag = not flag
 
 answer = K*K
 for i in range(N-K+1):
     for j in range(M-K+1):
-        startB, startW = 0, 0
-        flag = 0
-        for k in range(K):
-            nextFlag = (flag+1) % 2
-            startB += count[i+k][flag][K+j] - count[i+k][flag][j]
-            startW += count[i+k][nextFlag][K+j] - count[i+k][nextFlag][j]
-            flag = nextFlag
-        answer = min(answer, min(startB, startW))
+        tempAnswer = count[i+K-1][j+K-1] - count[i+K-1][j-1] - count[i-1][j+K-1] + count[i-1][j-1]
+        tempAnswer = min(tempAnswer, K*K - tempAnswer)
+        answer = min(answer, tempAnswer)
+
 print(answer)
