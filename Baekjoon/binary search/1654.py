@@ -7,9 +7,9 @@ for _ in range(K):
     lines.append(int(input()))
 
 left = 1
-right = min(lines)
+right = max(lines)
 
-while left < right:
+while left <= right:
     mid = (left + right) // 2
     cnt = 0
     for line in lines:
