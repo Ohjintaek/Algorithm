@@ -11,7 +11,7 @@ for right in range(N):
     if dolls[right] == 1:
         cnt += 1
     
-    while True:
+    while left <= right:
         if dolls[left] == 2:
             left += 1
         elif cnt == K + 1 and dolls[left] == 1:
