@@ -2,17 +2,14 @@ import sys
 input = sys.stdin.readline
 
 def makePrimeList(n):
-    _list = [2]
-    for i in range(3, n+1):
-        flag = True
-        for num in _list:
-            if num > int(i**0.5):
-                break
-            if i % num == 0:
-                flag = False
-                break
-        if flag:
+    isPrime = [False, False] + [True]*(n-1)
+    _list = []
+
+    for i in range(2, n+1):
+        if isPrime[i]:
             _list.append(i)
+            for j in range(2*i, N+1, i):
+                isPrime[j] = False
     
     return _list
 
