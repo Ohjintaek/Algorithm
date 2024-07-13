@@ -7,6 +7,7 @@ for _ in range(T):
     k = int(input())
     minHeap = []
     maxHeap = []
+    queueDetail = dict()
     length = 0
     for _ in range(k):
         operator, operand = input().split()
@@ -16,20 +17,33 @@ for _ in range(T):
             heapq.heappush(minHeap, operand)
             heapq.heappush(maxHeap, (-operand, operand))
             length += 1
+
+            if operand not in queueDetail:
+                queueDetail[operand] = 1
+            else:
+                queueDetail[operand] += 1
         else:
             if length == 0:
                 continue
             if operand == -1:
-                heapq.heappop(minHeap)
+                while queueDetail[minHeap[0]] == 0:
+                    heapq.heappop(minHeap)
+                target = heapq.heappop(minHeap)
             else:
-                heapq.heappop(maxHeap)
-
+                while queueDetail[maxHeap[0][1]] == 0:
+                    heapq.heappop(maxHeap)
+                target = heapq.heappop(maxHeap)[1]
             length -= 1
-            if length == 0:
-                minHeap.clear()
-                maxHeap.clear()
-
+            queueDetail[target] -= 1
+    
     if length:
-        print(maxHeap[0][1], minHeap[0])
+        while queueDetail[minHeap[0]] == 0:
+            heapq.heappop(minHeap)
+        _min = minHeap[0]
+
+        while queueDetail[maxHeap[0][1]] == 0:
+            heapq.heappop(maxHeap)
+        _max = maxHeap[0][1]
+        print(_max, _min)
     else:
         print('EMPTY')
