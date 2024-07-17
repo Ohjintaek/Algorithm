@@ -15,11 +15,13 @@ for _ in range(K):
 bags.sort()
 
 answer = 0
-jewelWeightHeap = []
+canSteal = []
 for bag in bags:
     while jewels and jewels[0][0] <= bag:
         jewel = heapq.heappop(jewels)
-        heapq.heappush(jewelWeightHeap, -jewel[1])
-    answer += -heapq.heappop(jewelWeightHeap)
+        heapq.heappush(canSteal, -jewel[1])
+    if not canSteal:
+        continue
+    answer -= heapq.heappop(canSteal)
 
 print(answer)
